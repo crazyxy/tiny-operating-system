@@ -1,3 +1,4 @@
+; Function for printing string in bx
 print:
 	pusha
 
@@ -17,6 +18,10 @@ done:
 	ret
 
 
+; Function for printing a new line
+; \n contains two characters:
+; 0x0a is newline char
+; 0x0d is carriage return
 print_nl:
 	pusha
 
