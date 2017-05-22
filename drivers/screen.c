@@ -3,6 +3,7 @@
  * Author: Yan Xue <yanxue@paypal.com>
  * Date: 22/05/2017
  */
+#include "../kernel/util.h"
 #include "screen.h"
 #include "port.h"
 
@@ -46,9 +47,7 @@ int print_char(char c, int col, int row, char attr){
         return get_offset(col, row);
     }
 
-    int offset;
-    if (col >= 0 && row >= 0) offset = get_offset(col, row);
-    else offset = get_cursor_offset();
+    int offset = get_offset(col, row);
 
     if (c == '\n'){
         row = get_offset_row(offset);
@@ -57,6 +56,20 @@ int print_char(char c, int col, int row, char attr){
         vidmem[offset] = c;
         vidmem[offset+1] = attr;
         offset += 2;
+    }
+
+
+    // Overflow
+    if (offset >= MAX_ROWS * MAX_COLS * 2){
+        int i;
+        for(i = 0; i < MAX_ROWS-1; i ++){
+            memory_copy((char*) VIDEO_ADDRESS + get_offset(0, i),
+                    (char*) VIDEO_ADDRESS + get_offset(0, i+1),
+                    MAX_COLS*2);
+        }
+        char *last_line = (char*) VIDEO_ADDRESS + get_offset(0, MAX_ROWS-1);
+        for(i = 0; i < MAX_COLS*2; i ++) last_line[i] = 0;
+        offset -= 2 * MAX_COLS;
     }
 
     set_cursor_offset(offset);
