@@ -48,7 +48,7 @@ debug: os-image kernel.elf
 
 clean:
 	rm -rf *.bin *.o *.dis *.elf os-image
-	rm -rf kernel/*.o boot/*.bin boot/*.o
+	rm -rf kernel/*.o boot/*.bin boot/*.o drivers/*.o
 
 kernel.dis: kernel.bin
 	ndisasm -b 32 $< >$@
