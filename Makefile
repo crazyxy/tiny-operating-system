@@ -1,12 +1,12 @@
 # Automatically expand to a list of existing files that
 # match the patterns
-C_SOURCES = $(wildcard kernel/*.c drivers/*.c)
-HEADERS = $(wildcard kernel/*.h drivers/.h)
+C_SOURCES = $(wildcard kernel/*.c drivers/*.c cpu/*.c)
+HEADERS = $(wildcard kernel/*.h drivers/.h cpu/*.h)
 
 
 # Create a list of object files to build, simple by replacing
 # the '.c' extension of filenames in C_SOURCES with '.o'
-OBJ = $(C_SOURCES:.c=.o)
+OBJ = $(C_SOURCES:.c=.o cpu/interrupt.o)
 
 CC = /usr/local/i386elfgcc/bin/i386-elf-gcc
 GDB = /usr/local/i386elfgcc/bin/i386-elf-gdb
@@ -48,7 +48,7 @@ debug: os-image kernel.elf
 
 clean:
 	rm -rf *.bin *.o *.dis *.elf os-image
-	rm -rf kernel/*.o boot/*.bin boot/*.o drivers/*.o
+	rm -rf kernel/*.o boot/*.bin boot/*.o drivers/*.o cpu/*.o
 
 kernel.dis: kernel.bin
 	ndisasm -b 32 $< >$@
