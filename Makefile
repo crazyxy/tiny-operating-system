@@ -1,7 +1,7 @@
 # Automatically expand to a list of existing files that
 # match the patterns
-C_SOURCES = $(wildcard kernel/*.c drivers/*.c cpu/*.c)
-HEADERS = $(wildcard kernel/*.h drivers/.h cpu/*.h)
+C_SOURCES = $(wildcard kernel/*.c drivers/*.c cpu/*.c libc/*.c)
+HEADERS = $(wildcard kernel/*.h drivers/.h cpu/*.h libc/*.h)
 
 
 # Create a list of object files to build, simple by replacing
@@ -11,7 +11,7 @@ OBJ = $(C_SOURCES:.c=.o cpu/interrupt.o)
 CC = /usr/local/i386elfgcc/bin/i386-elf-gcc
 GDB = /usr/local/i386elfgcc/bin/i386-elf-gdb
 
-CFLAGS = -g
+CFLAGS = -g -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra -Werror
 
 
 # $@ = target file
@@ -48,7 +48,7 @@ debug: os-image kernel.elf
 
 clean:
 	rm -rf *.bin *.o *.dis *.elf os-image
-	rm -rf kernel/*.o boot/*.bin boot/*.o drivers/*.o cpu/*.o
+	rm -rf kernel/*.o boot/*.bin boot/*.o drivers/*.o cpu/*.o libc/*.o
 
 kernel.dis: kernel.bin
 	ndisasm -b 32 $< >$@

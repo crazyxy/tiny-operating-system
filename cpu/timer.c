@@ -1,5 +1,9 @@
 #include "timer.h"
 #include "isr.h"
+#include "port.h"
+
+#include "../libc/function.h"
+
 
 /*
  * The programmable interval timers is a chip connected to IRQ0.
@@ -9,11 +13,7 @@ u32 tick = 0;
 
 static void timer_callback(registers_t regs){
     tick ++;
-    kprint("Tick: ");
-    char tick_ascii[256];
-    int_to_ascii(tick, tick_ascii);
-    kprint(tick_ascii);
-    kprint("\n");
+    UNUSED(regs);
 }
 
 

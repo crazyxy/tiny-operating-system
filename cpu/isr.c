@@ -5,7 +5,13 @@
  */
 #include "isr.h"
 #include "idt.h"
-#include "../drivers/port.h"
+#include "timer.h"
+#include "port.h"
+
+#include "../drivers/keyboard.h"
+#include "../drivers/screen.h"
+
+#include "../libc/string.h"
 
 void isr_install(){
     set_idt_gate(0, (u32)isr0);
@@ -137,3 +143,8 @@ void register_interrupt_handler(u8 n, isr_t handler){
     interrupt_handlers[n] = handler;
 }
 
+void irq_install(){
+    asm volatile("sti");
+    init_timer(50);
+    init_keyboard();
+}

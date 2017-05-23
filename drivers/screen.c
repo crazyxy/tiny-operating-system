@@ -3,9 +3,9 @@
  * Author: Yan Xue <yanxue@paypal.com>
  * Date: 22/05/2017
  */
-#include "../kernel/util.h"
+#include "../libc/mem.h"
+#include "../cpu/port.h"
 #include "screen.h"
-#include "port.h"
 
 int get_cursor_offset();
 void set_cursor_offset(int offset);
@@ -14,6 +14,14 @@ int get_offset(int col, int row);
 int get_offset_row(int offset);
 int get_offset_col(int offset);
 
+
+void screen_backspace(){
+    int offset = get_cursor_offset() - 2;
+    int col = get_offset_col(offset);
+    int row = get_offset_row(offset);
+    kprint_at(" ", col, row);
+    set_cursor_offset(offset);
+}
 
 void kprint_at(char *msg, int col, int row){
     int offset;
