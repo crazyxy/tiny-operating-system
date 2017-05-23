@@ -3,6 +3,9 @@
  * Author: Yan Xue <yanxue@paypal.com>
  * Date: 22/05/2017
  */
+
+#include "util.h"
+
 void memory_copy(char *dst, char *src, int n){
     int i;
     for(i = 0; i < n; i ++)
@@ -21,4 +24,23 @@ void int_to_ascii(int n, char str[]){
     
     if(sign < 0) str[i++] = '-';
     str[i] = '\0';
+    reverse(str);
+}
+
+
+void reverse(char* str){
+    int i = 0, j = strlen(str) - 1;
+    while(i <= j){
+        char tmp = *(str+i);
+        *(str+i) = *(str+j);
+        *(str+j) = tmp;
+        i ++;
+        j --;
+    }
+}
+
+int strlen(char str[]){
+    char *p = str;
+    while(*p != '\0') p++;
+    return p-str;
 }

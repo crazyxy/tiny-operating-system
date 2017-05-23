@@ -5,6 +5,7 @@
  */
 #include "isr.h"
 #include "idt.h"
+#include "../drivers/port.h"
 
 void isr_install(){
     set_idt_gate(0, (u32)isr0);
@@ -39,6 +40,36 @@ void isr_install(){
     set_idt_gate(29, (u32)isr29);
     set_idt_gate(30, (u32)isr30);
     set_idt_gate(31, (u32)isr31);
+
+    
+    port_byte_out(PIC1_COMMAND, 0x11);
+    port_byte_out(PIC2_COMMAND, 0x11);
+    port_byte_out(PIC1_DATA, 0x20); // offset for PIC1
+    port_byte_out(PIC2_DATA, 0x28); // offset for PIC2
+    port_byte_out(PIC1_DATA, 0x04); // there is a slave at IRQ2
+    port_byte_out(PIC2_DATA, 0x02); // tell slave its cascade identity
+    port_byte_out(PIC1_DATA, 0x01); //8086
+    port_byte_out(PIC2_DATA, 0x01); //8086
+    port_byte_out(PIC1_DATA, 0x0);
+    port_byte_out(PIC2_DATA, 0x0);
+
+
+    set_idt_gate(32, (u32)irq0);
+    set_idt_gate(33, (u32)irq1);
+    set_idt_gate(34, (u32)irq2);
+    set_idt_gate(35, (u32)irq3);
+    set_idt_gate(36, (u32)irq4);
+    set_idt_gate(37, (u32)irq5);
+    set_idt_gate(38, (u32)irq6);
+    set_idt_gate(39, (u32)irq7);
+    set_idt_gate(40, (u32)irq8);
+    set_idt_gate(41, (u32)irq9);
+    set_idt_gate(42, (u32)irq10);
+    set_idt_gate(43, (u32)irq11);
+    set_idt_gate(44, (u32)irq12);
+    set_idt_gate(45, (u32)irq13);
+    set_idt_gate(46, (u32)irq14);
+    set_idt_gate(47, (u32)irq15);
 
     set_idt();
 }
@@ -90,3 +121,19 @@ void isr_handler(registers_t r){
     kprint(exception_messages[r.int_no]);
     kprint("\n");
 }
+
+void irq_handler(registers_t r){
+    if(r.int_no >= 40)
+        port_byte_out(PIC2_COMMAND, 0x20);
+    port_byte_out(PIC1_COMMAND, 0x20);
+
+    if(interrupt_handlers[r.int_no] != 0){
+        isr_t handler = interrupt_handlers[r.int_no];
+        handler(r);
+    }
+}
+
+void register_interrupt_handler(u8 n, isr_t handler){
+    interrupt_handlers[n] = handler;
+}
+
