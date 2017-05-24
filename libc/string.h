@@ -2,6 +2,7 @@
 #define STRING_H
 
 void int_to_ascii(int, char*);
+void hex_to_ascii(int, char*);
 void reverse(char*);
 int strlen(char*);
 void backspace(char*);

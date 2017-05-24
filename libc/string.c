@@ -18,6 +18,12 @@ void int_to_ascii(int n, char *str){
     reverse(str);
 }
 
+void hex_to_ascii(int n, char *str){
+    append(str, '0');
+    append(str, 'x');
+
+}
+
 void reverse(char *str){
     int i = 0, j = strlen(str) - 1;
     while(i < j){
