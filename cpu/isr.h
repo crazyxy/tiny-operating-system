@@ -6,7 +6,16 @@
 #ifndef ISR_H
 #define ISR_H
 
-#include "types.h"
+#include <stdint.h>
+
+
+#define PIC1            0x20
+#define PIC2            0xA0
+#define PIC1_COMMAND    PIC1
+#define PIC1_DATA       (PIC1+1)
+#define PIC2_COMMAND    PIC2
+#define PIC2_DATA       (PIC2+1)
+
 
 extern void isr0();
 extern void isr1();
@@ -77,10 +86,10 @@ extern void irq15();
 #define IRQ15 47
 
 typedef struct{
-    u32 ds; // Data segment selector
-    u32 edi, esi, ebp, esp, ebx, edx, ecx, eax; // Pushed by pusha
-    u32 int_no, err_code;
-    u32 eip, cs, eflags, useresp, ss; // Pushed by processor automatically
+    uint32_t ds; // Data segment selector
+    uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax; // Pushed by pusha
+    uint32_t int_no, err_code;
+    uint32_t eip, cs, eflags, useresp, ss; // Pushed by processor automatically
 } registers_t;
 
 void isr_install();
@@ -90,7 +99,7 @@ void isr_handler(registers_t);
 void irq_handler(registers_t);
 
 typedef void (*isr_t)(registers_t);
-void register_interrupt_handler(u8 n, isr_t handler);
+void register_interrupt_handler(uint8_t n, isr_t handler);
 
 isr_t interrupt_handlers[256];
 

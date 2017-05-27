@@ -7,8 +7,8 @@
 #define TIMER_PORT2 0x42
 #define TIMER_COMMAND 0x43
 
-#include "types.h"
+#include <stdint.h>
 
-void init_timer(u32 freq);
+void init_timer(uint32_t freq);
 
 #endif
