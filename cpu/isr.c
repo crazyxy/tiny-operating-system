@@ -1,17 +1,12 @@
-/**
- * File: cpu/isr.c
- * Author: Yan Xue <yanxue@paypal.com>
- * Date: 22/05/2017
- */
 #include "isr.h"
 #include "idt.h"
-#include "timer.h"
-#include "port.h"
+#include <cpu/timer.h>
+#include <cpu/port.h>
 
-#include "../drivers/keyboard.h"
-#include "../drivers/screen.h"
+#include <drivers/keyboard.h>
+#include <drivers/screen.h>
 
-#include "../libc/string.h"
+#include <string.h>
 
 void isr_install(){
     set_idt_gate(0, (uint32_t)isr0);

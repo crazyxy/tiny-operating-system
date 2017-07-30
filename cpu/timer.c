@@ -2,7 +2,7 @@
 #include "isr.h"
 #include "port.h"
 
-#include "../libc/function.h"
+#include <function.h>
 
 
 /*

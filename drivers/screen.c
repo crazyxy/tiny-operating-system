@@ -1,10 +1,5 @@
-/**
- * File: screen.c
- * Author: Yan Xue <yanxue@paypal.com>
- * Date: 22/05/2017
- */
-#include "../libc/mem.h"
-#include "../cpu/port.h"
+#include <mem.h>
+#include <cpu/port.h>
 #include "screen.h"
 
 int get_cursor_offset();

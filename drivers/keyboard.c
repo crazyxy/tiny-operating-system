@@ -1,15 +1,10 @@
-/**
- * File: drivers/keyboard.c
- * Author: Yan Xue <yanxue@paypal.com>
- * Date: 23/05/2017
- */
 #include "keyboard.h"
 #include "screen.h"
-#include "../cpu/port.h"
-#include "../cpu/isr.h"
-#include "../libc/string.h"
-#include "../libc/function.h"
-#include "../kernel/kernel.h"
+#include <cpu/port.h>
+#include <cpu/isr.h>
+#include <string.h>
+#include <function.h>
+#include <kernel/kernel.h>
 
 static char key_buffer[256];
 

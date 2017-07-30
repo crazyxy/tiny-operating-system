@@ -29,7 +29,7 @@ load_kernel:
 	call print_nl
 
 	mov bx, KERNEL_OFFSET
-	mov dh, 20
+	mov dh, 20  ; when kernel is larger, this number should increase
 	mov dl, [BOOT_DRIVE]
 	call disk_load
 	ret

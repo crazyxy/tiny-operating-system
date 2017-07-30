@@ -1,7 +1,7 @@
 # Automatically expand to a list of existing files that
 # match the patterns
-C_SOURCES = $(wildcard kernel/*.c drivers/*.c cpu/*.c libc/*.c)
-HEADERS = $(wildcard kernel/*.h drivers/.h cpu/*.h libc/*.h)
+C_SOURCES = $(wildcard kernel/*.c drivers/*.c cpu/*.c include/*.c)
+HEADERS = $(wildcard kernel/*.h drivers/.h cpu/*.h include/*.h)
 
 
 # Create a list of object files to build, simple by replacing
@@ -12,7 +12,7 @@ CC = /usr/local/i386elfgcc/bin/i386-elf-gcc
 GDB = /usr/local/i386elfgcc/bin/i386-elf-gdb
 
 CFLAGS = -g -ffreestanding -Wall -Wextra -fno-exceptions -m32
-
+INC = -I ./include/ -I ./
 
 # $@ = target file
 # $< = first dependency
@@ -38,7 +38,7 @@ debug: os-image kernel.elf
 	${GDB} -ex "target remote localhost:1234" -ex "symbol-file kernel.elf"
 
 %.o: %.c ${HEADERS}
-	${CC} ${CFLAGS} -ffreestanding -c $< -o $@
+	${CC} ${CFLAGS} -ffreestanding -c $< ${INC} -o $@
 
 %.o: %.asm
 	nasm $< -f elf -o $@
@@ -48,7 +48,7 @@ debug: os-image kernel.elf
 
 clean:
 	rm -rf *.bin *.o *.dis *.elf os-image
-	rm -rf kernel/*.o boot/*.bin boot/*.o drivers/*.o cpu/*.o libc/*.o
+	rm -rf kernel/*.o boot/*.bin boot/*.o drivers/*.o cpu/*.o include/*.o
 
 kernel.dis: kernel.bin
 	ndisasm -b 32 $< >$@
