@@ -9,14 +9,30 @@ void memory_copy(uint8_t *dst, uint8_t *src, int n){
 
 static uint32_t free_mem_addr = 0x10000;
 static uint32_t alignment = 0x1000;
-static uint32_t mask = 0xfffff000;
 
-uint32_t kmalloc(size_t size, int align, uint32_t *phys_addr){
-   if(align == 1 && (free_mem_addr & (alignment-1))){
-       free_mem_addr &= mask;
+uint32_t kmalloc_a(uint32_t size) {
+    return kmalloc_int(size, 1, 0);
+}
+
+uint32_t kmalloc_p(uint32_t size, uint32_t *phy) {
+    return kmalloc_int(size, 0, phy);
+}
+
+uint32_t kmalloc_ap(uint32_t size, uint32_t *phy) {
+    return kmalloc_int(size, 1, phy);
+}
+
+uint32_t kmalloc(uint32_t size) {
+    return kmalloc_int(size, 0, 0);
+}
+
+
+uint32_t kmalloc_int(uint32_t size, int align, uint32_t *phy) {
+   if(align == 1 && (free_mem_addr & (alignment - 1))) {
+       free_mem_addr &= -alignment;
        free_mem_addr += alignment;
    }
-   if(phys_addr) *phys_addr = free_mem_addr;
+   if(phy) *phy = free_mem_addr;
    uint32_t ret = free_mem_addr;
    free_mem_addr += size;
    return ret;
