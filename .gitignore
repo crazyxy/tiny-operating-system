@@ -1,1 +1,4 @@
 boot/*.bin
+.project
+.cproject
+.settings/

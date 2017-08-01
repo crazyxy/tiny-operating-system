@@ -9,7 +9,7 @@
  * The programmable interval timers is a chip connected to IRQ0.
  */
 
-uint32_t tick = 0;
+unsigned int tick = 0;
 
 static void timer_callback(registers_t regs){
     tick ++;
@@ -17,11 +17,11 @@ static void timer_callback(registers_t regs){
 }
 
 
-void init_timer(uint32_t freq){
+void init_timer(unsigned int freq){
     register_interrupt_handler(IRQ0, timer_callback);
-    uint32_t divisor = TIMER_MAX_FREQ / freq;
-    uint8_t l = (uint8_t) (divisor & 0xff);
-    uint8_t h = (uint8_t) ((divisor >> 8) & 0xff);
+    unsigned int divisor = TIMER_MAX_FREQ / freq;
+    unsigned char l = (unsigned char) (divisor & 0xff);
+    unsigned char h = (unsigned char) ((divisor >> 8) & 0xff);
     
     port_byte_out(TIMER_COMMAND, 0x36);
     port_byte_out(TIMER_PORT0, l);
