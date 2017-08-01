@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 void memory_copy(uint8_t*, uint8_t*, int);
+void* memset(void*, int c, unsigned int);
 
 uint32_t kmalloc_a(uint32_t); 
 uint32_t kmalloc_p(uint32_t, uint32_t *phy);

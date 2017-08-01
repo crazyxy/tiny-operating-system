@@ -7,6 +7,16 @@ void memory_copy(uint8_t *dst, uint8_t *src, int n){
     }
 }
 
+void* memset(void *s, int c, unsigned int len){
+	unsigned char *p = s;
+	while(len > 0){
+		*p = (unsigned char)s;
+		p++;
+		len--;
+	}
+	return s;
+}
+
 static uint32_t free_mem_addr = 0x10000;
 static uint32_t alignment = 0x1000;
 
