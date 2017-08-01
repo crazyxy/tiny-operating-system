@@ -10,14 +10,14 @@ void memory_copy(uint8_t *dst, uint8_t *src, int n){
 void* memset(void *s, int c, unsigned int len){
 	unsigned char *p = s;
 	while(len > 0){
-		*p = (unsigned char)s;
+		*p = (unsigned char)c;
 		p++;
 		len--;
 	}
 	return s;
 }
 
-static uint32_t free_mem_addr = 0x10000;
+uint32_t placement_address = 0x10000;
 static uint32_t alignment = 0x1000;
 
 uint32_t kmalloc_a(uint32_t size) {
@@ -38,12 +38,12 @@ uint32_t kmalloc(uint32_t size) {
 
 
 uint32_t kmalloc_int(uint32_t size, int align, uint32_t *phy) {
-   if(align == 1 && (free_mem_addr & (alignment - 1))) {
-       free_mem_addr &= -alignment;
-       free_mem_addr += alignment;
+   if(align == 1 && (placement_address & (alignment - 1))) {
+       placement_address &= -alignment;
+       placement_address += alignment;
    }
-   if(phy) *phy = free_mem_addr;
-   uint32_t ret = free_mem_addr;
-   free_mem_addr += size;
+   if(phy) *phy = placement_address;
+   uint32_t ret = placement_address;
+   placement_address += size;
    return ret;
 }

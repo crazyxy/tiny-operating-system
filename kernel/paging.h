@@ -3,6 +3,8 @@
 
 #include <cpu/isr.h>
 
+const static int PAGE_SIZE = 1024 * 4;
+
 typedef struct page {
     uint32_t present    : 1;
     uint32_t rw         : 1;
@@ -19,7 +21,7 @@ typedef struct page_table {
 } page_table_t;
 
 typedef struct page_directory {
-    page_table_t *table[1024];
+    page_table_t *tables[1024];
     uint32_t tablesPhysical[1024];
     /*
      * The physical address of tablesPhysical.
