@@ -17,8 +17,6 @@ void* memset(void *s, int c, unsigned int len){
 	return s;
 }
 
-uint32_t placement_address = 0x10000;
-static uint32_t alignment = 0x1000;
 
 uint32_t kmalloc_a(uint32_t size) {
     return kmalloc_int(size, 1, 0);
@@ -35,7 +33,6 @@ uint32_t kmalloc_ap(uint32_t size, uint32_t *phy) {
 uint32_t kmalloc(uint32_t size) {
     return kmalloc_int(size, 0, 0);
 }
-
 
 uint32_t kmalloc_int(uint32_t size, int align, uint32_t *phy) {
    if(align == 1 && (placement_address & (alignment - 1))) {

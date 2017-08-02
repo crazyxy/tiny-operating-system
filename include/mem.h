@@ -3,6 +3,10 @@
 
 #include <stdint.h>
 
+
+static uint32_t placement_address = 0x10000;
+static uint32_t alignment = 0x1000;
+
 void memory_copy(uint8_t*, uint8_t*, int);
 void* memset(void*, int c, unsigned int);
 

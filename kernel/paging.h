@@ -40,7 +40,7 @@ void page_fault(registers_t regs);
 uint32_t *frames;
 uint32_t nframes;
 
-extern uint32_t placement_address;
+//extern uint32_t placement_address;
 
 #define INDEX_FROM_BIT(a) (a>>5)
 #define OFFSET_FROM_BIT(a) (a&31)
