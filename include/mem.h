@@ -1,19 +1,14 @@
 #ifndef MEM_H
 #define MEM_H
 
-#include <stdint.h>
+#include <type.h>
+void memory_copy(uint8*, uint8*, int);
+uint8* memset(uint8*, int c, uint32);
 
-
-static uint32_t placement_address = 0x10000;
-static uint32_t alignment = 0x1000;
-
-void memory_copy(uint8_t*, uint8_t*, int);
-void* memset(void*, int c, unsigned int);
-
-uint32_t kmalloc_a(uint32_t); 
-uint32_t kmalloc_p(uint32_t, uint32_t *phy);
-uint32_t kmalloc_ap(uint32_t, uint32_t *phy);
-uint32_t kmalloc(uint32_t);
-uint32_t kmalloc_int(uint32_t, int align, uint32_t *phy);
+uint32 kmalloc_a(uint32); 
+uint32 kmalloc_p(uint32, uint32 *phy);
+uint32 kmalloc_ap(uint32, uint32 *phy);
+uint32 kmalloc(uint32);
+uint32 kmalloc_int(uint32, int align, uint32 *phy);
 
 #endif

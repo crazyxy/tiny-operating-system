@@ -1,3 +1,4 @@
+#include <type.h>
 #include <mem.h>
 #include <cpu/port.h>
 #include "screen.h"
@@ -66,8 +67,8 @@ int print_char(char c, int col, int row, char attr){
     if (offset >= MAX_ROWS * MAX_COLS * 2){
         int i;
         for(i = 0; i < MAX_ROWS-1; i ++){
-            memory_copy((uint8_t*) VIDEO_ADDRESS + get_offset(0, i),
-                    (uint8_t*) VIDEO_ADDRESS + get_offset(0, i+1),
+            memory_copy((uint8*) VIDEO_ADDRESS + get_offset(0, i),
+                    (uint8*) VIDEO_ADDRESS + get_offset(0, i+1),
                     MAX_COLS*2);
         }
         char *last_line = (char*) VIDEO_ADDRESS + get_offset(0, MAX_ROWS-1);

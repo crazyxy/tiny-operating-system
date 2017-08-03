@@ -4,3 +4,4 @@
 #define ENTER 0x1C
 
 void init_keyboard();
+void user_input(char *input);
